@@ -6,6 +6,6 @@ class Publik extends CI_Controller
 	public function index()
 	{
 		$data['judul'] = 'Portal SMS UTM';
-		$this->load->view('Public/index', $data);
+		$this->load->view('public/index', $data);
 	}
 }

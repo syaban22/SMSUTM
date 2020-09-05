@@ -7,18 +7,10 @@ class Auth extends CI_Controller
     {
         parent::__construct();
         $this->load->library('form_validation');
-        // if ($this->session->userdata('level_id') == 1) {
-        //     redirect('administrator');
-        // } elseif ($this->session->userdata('level_id') == 2) {
-        //     redirect('admin');
-        // } elseif ($this->session->userdata('level_id') == 3) {
-        //     redirect('dosen');
-        // } elseif ($this->session->userdata('level_id') == 4) {
-        //     redirect('mahasiswa');
-        // }
     }
     public function index()
     {
+        $this->cek_level();
         $data['pass'] = $this->session->userdata('captchaword');
 
         $this->form_validation->set_rules('username', 'Username', 'required|trim');
@@ -144,5 +136,16 @@ class Auth extends CI_Controller
         $leveluser = $this->session->userdata('level_id');
         $data['level'] = $this->db->get_where('user_level', ['id' => $leveluser])->row_array();
         $this->load->view('auth/block', $data);
+    }
+    public function cek_level(){
+        if ($this->session->userdata('level_id') == 1) {
+            redirect('administrator');
+        // } elseif ($this->session->userdata('level_id') == 2) {
+        //     redirect('admin');
+        // } elseif ($this->session->userdata('level_id') == 3) {
+        //     redirect('dosen');
+        // } elseif ($this->session->userdata('level_id') == 4) {
+        //     redirect('mahasiswa');
+        }
     }
 }

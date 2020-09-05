@@ -20,18 +20,10 @@
   <link href="<?= base_url('assets/') ?>css/profile.css" rel="stylesheet" type="text/css">
   <link href="<?= base_url('assets/') ?>css/profile_carousel.css" rel="stylesheet" type="text/css">
   <link href="<?= base_url('assets/'); ?>css/sb-admin-2.min.css" rel="stylesheet">
-  <link href="<?= base_url('assets/'); ?>css/css.css" rel="stylesheet">
   <link href="<?= base_url('assets/'); ?>css/bootstrap.min.css" rel="stylesheet">
-  <link href="<?= base_url('assets/'); ?>timeline/style.css" rel="stylesheet">
-  <!-- <link href="<?= base_url('assets/'); ?>css/search.css" rel="stylesheet">
-  <link href="<?= base_url('assets/'); ?>plugin/toast/jquery.toast.min.css" rel="stylesheet"> -->
-
+  <link href="<?= base_url('assets/'); ?>vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 <div id="preloder">
 		<div class="loader"></div>
 </div>
-<body id="page-top">
-  <!-- <div id="load">Loading . . .</!-->
-  <!-- Page Wrapper -->
-  <div id="wrapper">

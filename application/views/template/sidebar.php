@@ -1,16 +1,21 @@
-<!-- Sidebar -->
-<ul class="navbar-nav bg sidebar sidebar-dark accordion" id="accordionSidebar">
-  <?php
-  $level_id = $this->session->userdata('level_id');
-  $queryLevel = "SELECT level
-                FROM user_level
-                WHERE user_level.id = $level_id
-                ";
-  $hasL = $this->db->query($queryLevel)->result_array();
-  ?>
+<body id="page-top">
 
-  <!-- Sidebar - Brand -->
-  <?php foreach ($hasL as $hL) : ?>
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
+    <?php
+    $level_id = $this->session->userdata('level_id');
+    $queryLevel = "SELECT level
+                  FROM user_level
+                  WHERE user_level.id = $level_id
+                  ";
+    $hasL = $this->db->query($queryLevel)->result_array();
+    ?>
+
+    <!-- Sidebar - Brand -->
+    <?php foreach ($hasL as $hL) : ?>
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url($hL['level']); ?>">
     <?php endforeach; ?>
     <div class="sidebar-brand-icon rotate-n-15">
@@ -24,15 +29,14 @@
 
     <!-- Query menu -->
     <?php
-                                                                                  $level_id = $this->session->userdata('level_id');
-                                                                                  $queryMenu = "SELECT user_menu.id, menu
+        $level_id = $this->session->userdata('level_id');
+        $queryMenu = "SELECT user_menu.id, menu
                       FROM user_menu JOIN user_access_menu
                       ON user_menu.id = user_access_menu.menu_id
                       WHERE user_access_menu.role_id = $level_id
                       ORDER BY user_access_menu.menu_id ASC
                       ";
-
-                                                                                  $menu = $this->db->query($queryMenu)->result_array();
+        $menu = $this->db->query($queryMenu)->result_array();
     ?>
 
     <!-- Looping Menu -->
@@ -44,17 +48,17 @@
       <!-- Sub menu sesuai Menu diatas -->
 
       <?php
-                                                                                    $menuId = $m['id'];
-                                                                                    $querySubMenu =
-                                                                                      "
-          SELECT *
-          FROM user_sub_menu JOIN user_menu
-          ON user_sub_menu.menu_id = user_menu.id
-          WHERE user_sub_menu.menu_id = $menuId
-          AND user_sub_menu.is_active = 1
-          ";
+        $menuId = $m['id'];
+        $querySubMenu =
+                        "
+                        SELECT *
+                        FROM user_sub_menu JOIN user_menu
+                        ON user_sub_menu.menu_id = user_menu.id
+                        WHERE user_sub_menu.menu_id = $menuId
+                        AND user_sub_menu.is_active = 1
+                        ";
 
-                                                                                    $SubMenu = $this->db->query($querySubMenu)->result_array();
+        $SubMenu = $this->db->query($querySubMenu)->result_array();
       ?>
 
       <?php foreach ($SubMenu as $sm) : ?>
@@ -89,5 +93,5 @@
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
       </div>
 
-</ul>
+  </ul>
 <!-- End of Sidebar -->
