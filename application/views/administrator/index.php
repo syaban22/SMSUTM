@@ -85,7 +85,6 @@
 						<div class="form-group">
 							<label for="level">Level</label>
 							<select name="level" id="level" class="form-control">
-
 								<?php foreach ($level as $l) {
 									if ($u['level_id'] == $l['id']) {
 										echo "<option value='$l[id]' selected>$l[level]</option>";
@@ -128,9 +127,6 @@
 							Masukan Nama User
 						</div>
 					</div>
-					<!-- <div class="form-group">
-						<input type="text" class="form-control" name="email" id="email" placeholder="Email User">
-					</div> -->
 					<div class="form-group">
 						<input type="text" class="form-control cekkarakter1 req1" name="username" id="username" placeholder="Username Akun" required>
 						<div class="invalid-feedback">
@@ -139,13 +135,52 @@
 					</div>
 					<div class="form-group">
 						<select name="level" id="level" class="form-control" required>
-							<option>- Pilih Level -</option>
 							<?php foreach ($level as $l) : ?>
 								<option value="<?= $l['id']; ?>"><?= $l['level']; ?></option>
 							<?php endforeach; ?>
 						</select>
 					</div>
+					<div class="form-group">
+						<a href="#" data-dismiss="modal" data-toggle="modal" data-target="#Tfile">tambah dengan file?</a>
+					</div>
 				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary">Tambah</button>
+				</div>
+			</form>
+
+		</div>
+	</div>
+</div>
+
+<!-- Modal Tambah User Dengan File-->
+<div class="modal fade" id="Tfile" tabindex="-1" role="dialog" aria-labelledby="userBaruLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="userBaruLabel">Tambah User</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+
+			<form action="<?= base_url('administrator/tambahU'); ?>" method="POST" class="needs-validation" novalidate>
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="name">Upload Berkas Persyaratan Skripsi</div>
+							<div class="value">
+								<div class="input-group js-input-file">
+									<input class="input-file" type="file" name="file" id="file">
+									<label class="label--file" for="file">Choose file</label>
+									<span class="input-file__info">No file chosen</span>
+								</div>
+								<div class="label--desc">Upload file data (.Excel). Max file size
+									2 MB</div>
+							</div>
+						</div>
+					</div>
+				
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 					<button type="submit" class="btn btn-primary">Tambah</button>

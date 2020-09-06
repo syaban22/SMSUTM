@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 18, 2020 at 03:30 AM
+-- Generation Time: Sep 06, 2020 at 05:17 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -77,7 +77,10 @@ INSERT INTO `bimbingan` (`id`, `id_skripsi`, `pembahasan`, `dosbing`, `tanggal`,
 (16, 35, 'test4', '197101092006021012', '12/06/2020', 'LAB CC'),
 (17, 35, 'test5', '197101092006021012', '12/06/2020', 'LAB CC'),
 (18, 35, 'test6', '197101092006021012', '12/06/2020', 'LAB CC'),
-(19, 36, 'Pembahasan Judul Skripsi', '197101092006021012', '2020-06-17', 'Labcc');
+(19, 36, 'Pembahasan Judul Skripsi', '197101092006021012', '2020-06-17', 'Labcc'),
+(20, 36, 'test', '197101092006021012', '2020-08-19', 'Labcc'),
+(21, 36, 'test2', '197101092006021012', '2020-08-19', 'Labcc'),
+(22, 36, 'test', '19740102017021002', '2020-08-19', 'Labcc');
 
 -- --------------------------------------------------------
 
@@ -104,7 +107,8 @@ CREATE TABLE `dosen` (
 --
 
 INSERT INTO `dosen` (`nip`, `nama`, `Jenis_Kelamin`, `Alamat`, `tanggal_lahir`, `No_HP`, `gambar`, `username`, `prodi`, `email`, `tgl_buat`) VALUES
-('196911182001121004', 'Dr. Arif Muntasa, S.SI., M.T.', NULL, NULL, '0000-00-00', NULL, 'default.jpg', 45, '4111', '', ''),
+('196911182001121002', 'test2', NULL, NULL, NULL, NULL, 'default.jpg', 53, '3112', 'asd', '1599361150'),
+('196911182001121004', 'Dr. Arif Muntasa, S.SI., M.T', NULL, NULL, '0000-00-00', NULL, 'default.jpg', 45, '4111', '', ''),
 ('197101092006021012', 'Muhammad Kautsar Sophan, S.T., M.T.', NULL, NULL, '0000-00-00', NULL, 'default.jpg', 10, '4111', '', ''),
 ('19740102017021002', 'Ir. Soekarno, Alm.', NULL, NULL, '0000-00-00', NULL, 'default.jpg', 22, '1112', '', ''),
 ('197402212008011006', 'Dwi Kuswanto, S.Pd., M.T.', NULL, NULL, '0000-00-00', NULL, 'default.jpg', 38, '4111', '', '1587307634'),
@@ -242,6 +246,7 @@ INSERT INTO `mahasiswa` (`nim`, `nama`, `gambar`, `prodi`, `email`, `tgl_buat`, 
 ('170411100015', 'Abd. Ghofar Suwarno', 'default.jpg', '4111', '', '', 33, NULL, NULL, NULL, NULL),
 ('170411100024', 'Moh. Irsad', 'default.jpg', '4111', '', '', 32, NULL, NULL, NULL, NULL),
 ('170411100042', 'Ria Rostiani', 'default.jpg', '4111', '', '', 34, NULL, NULL, NULL, NULL),
+('170411100092', 'mahasiswa baru', 'default.jpg', '4111', '', '1597808913', 50, NULL, NULL, NULL, NULL),
 ('170411100099', 'Ahmad Khairi Ramadan', 'default.jpg', '4111', '', '', 30, NULL, NULL, NULL, NULL),
 ('170411100119', 'Sya\'ban', 'sbn_sma.jpg', '4111', '', '0000-00-00', 8, NULL, NULL, NULL, NULL);
 
@@ -376,7 +381,10 @@ INSERT INTO `user` (`id`, `username`, `password`, `level_id`) VALUES
 (46, '1701111', '$2y$10$wITa5vyDX8VApEdorS7YpecNW/R4MqaSk7FT2CNDzB8OHaDF.pV8u', 4),
 (47, '170411100001', '$2y$10$uidoq637L1GmCEvbOzSKwuw3bMfuJshQHU.fXApWezFrQLBJZmgkS', 4),
 (48, '170411100002', '$2y$10$TTmsUDlVLqR8NvqnAWCC4.FHU89h4AFW57gG00HtrE4iaAfj.Hp8K', 4),
-(49, '170411100003', '$2y$10$ZxGxYaRiCxQJGSyWbK5kQOmbIl8PvbNDV2TNQ/2aQpLtoA9IZYIdO', 4);
+(49, '170411100003', '$2y$10$ZxGxYaRiCxQJGSyWbK5kQOmbIl8PvbNDV2TNQ/2aQpLtoA9IZYIdO', 4),
+(50, '170411100092', '$2y$10$hcyqfS8kKHarE5SVJr5l9.CIjFzTf0PDRFMEzauga28EDC1oBot4q', 4),
+(51, '1969111820011210041', '$2y$10$RglJTYGsnTPw3dVqy9MhCuWkxzamaoJMDIpVpZOLYnM3UCDnZvfja', 3),
+(53, '196911182001121002', '$2y$10$.ESHTVX0.r1KPImonXWjbuLqFtIkUKweflInHhZJxnff9yA2Jqx3S', 3);
 
 -- --------------------------------------------------------
 
@@ -638,7 +646,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `bimbingan`
 --
 ALTER TABLE `bimbingan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `jadwal_sempro`
@@ -674,7 +682,7 @@ ALTER TABLE `status`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `user_access_menu`
@@ -722,9 +730,9 @@ ALTER TABLE `bimbingan`
 -- Constraints for table `dosen`
 --
 ALTER TABLE `dosen`
-  ADD CONSTRAINT `dosen_ibfk_1` FOREIGN KEY (`prodi`) REFERENCES `prodi` (`kode_prodi`),
-  ADD CONSTRAINT `dosen_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`id`),
-  ADD CONSTRAINT `jk` FOREIGN KEY (`Jenis_Kelamin`) REFERENCES `jenkel` (`id`);
+  ADD CONSTRAINT `dosen_ibfk_1` FOREIGN KEY (`prodi`) REFERENCES `prodi` (`kode_prodi`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `dosen_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `jk` FOREIGN KEY (`Jenis_Kelamin`) REFERENCES `jenkel` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `jadwal_sempro`
@@ -740,9 +748,9 @@ ALTER TABLE `jadwal_sempro`
 --
 ALTER TABLE `jadwal_sidang`
   ADD CONSTRAINT `jadwal_sidang_ibfk_1` FOREIGN KEY (`id_skripsi`) REFERENCES `skripsi` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `penguji1` FOREIGN KEY (`penguji_1`) REFERENCES `dosen` (`nip`),
-  ADD CONSTRAINT `penguji2` FOREIGN KEY (`penguji_2`) REFERENCES `dosen` (`nip`),
-  ADD CONSTRAINT `penguji3` FOREIGN KEY (`penguji_3`) REFERENCES `dosen` (`nip`);
+  ADD CONSTRAINT `penguji1` FOREIGN KEY (`penguji_1`) REFERENCES `dosen` (`nip`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `penguji2` FOREIGN KEY (`penguji_2`) REFERENCES `dosen` (`nip`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `penguji3` FOREIGN KEY (`penguji_3`) REFERENCES `dosen` (`nip`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `mahasiswa`

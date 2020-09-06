@@ -11,6 +11,7 @@ class Administrator extends CI_Controller
             redirect('Auth');
 		} 
 		$this->load->model('user_model', 'userM');
+		$this->load->model('dosen_model', 'dosenM');
 		cek_login();
 	}
 	public function index(){
@@ -33,8 +34,14 @@ class Administrator extends CI_Controller
 		$this->form_validation->set_rules('level', 'level', 'required');
 		// validasi false ini dibutuhkan atau enggak masih comingsoon
 		if ($this->form_validation->run() == false) {
-			//flash inputan kurang tepat
-			redirect('administrator/index');
+			$this->form_validation->set_rules('file', 'file', 'required');
+			if ($this->form_validation->run() == false) {
+				//flash inputan kurang tepat
+				redirect('administrator/index');
+			} else{
+				// input data dengan file ke db
+				$this->session->set_flashdata('pesan', '1 User baru berhasil ditambahkan');
+			}
 		} else {
 			if ($this->db->get_where('user', ['username' => $this->input->post('username')])->row_array() == null) {
 				$data = [
@@ -76,7 +83,7 @@ class Administrator extends CI_Controller
 		}
 		redirect('administrator/index');
 	}
-
+/* //tidak diperlukan
 	public function Fakultas()
 	{
 		$this->session->unset_userdata('keyword');
@@ -161,7 +168,7 @@ class Administrator extends CI_Controller
 		//sintak : bgst
 		//$this->session->set_flashdata('pesan', 'Gagal menghapus Fakultas');
 	}
-
+*/
 	public function ProgramStudi()
 	{
 		$this->session->unset_userdata('keyword');
@@ -247,7 +254,7 @@ class Administrator extends CI_Controller
 		$this->session->set_flashdata('pesan', '1 Program Studi berhasil dihapus');
 		redirect('administrator/ProgramStudi');
 	}
-
+/*
 	public function level()
 	{
 		$data['judul'] = 'Level Akses';
@@ -332,8 +339,8 @@ class Administrator extends CI_Controller
 
 		$this->session->set_flashdata('pesan', 'Akses telah diganti');
 	}
-
-	function daftarDosen()
+*/
+function daftarDosen()
 	{
 		$this->session->unset_userdata('keyword');
 
@@ -343,51 +350,23 @@ class Administrator extends CI_Controller
 		$data['profil']['nama'] = 'administrator';
 		$data['profil']['gambar'] = 'default.jpg';
 
-		$this->load->model('dosen_model', 'dosenM');
 		$data['prodi'] = $this->db->get('prodi')->result_array();
 		$data['username'] = $this->db->get_where('user', ['level_id' => '3'])->result_array();
-		//$data['user'] = $this->db->from('user');
 
-		if ($this->input->post('submit')) {
-			$data['keyword'] = $this->input->post('keyword');
-			$this->session->set_userdata('keyword', $data['keyword']);
-		} else {
-			$data['keyword'] = $this->session->userdata('keyword');
-		}
-
-		$config['total_rows'] = $this->dosenM->HitungSearch($data['keyword']);
-		$data['total_rows'] = $config['total_rows'];
-		$config['base_url'] = 'http://localhost/sms-utm/administrator/daftarDosen';
-
-		$config['per_page'] = 5;
-
-		$this->pagination->initialize($config);
-
-		if ($this->uri->segment(3) !== null) {
-			$data['start'] = $this->uri->segment(3);
-		} else {
-			$data['start'] = 0;
-		}
-
-		$data['dosen'] = $this->dosenM->getDosen($config['per_page'], $data['start'], $data['keyword']);
-		// $data['userDosen'] = $this->dosenM->getUserDosen();
-
+		$data['dosen'] = $this->dosenM->getDosen();
+		$this->load->view('template/header', $data);
+		$this->load->view('template/sidebar');
+		$this->load->view('template/topbar');
+		$this->load->view('administrator/daftarDosen');
+		$this->load->view('template/footer');
+	}
+	public function tambahDosen(){
 		$this->form_validation->set_rules('nip', 'nipdosen', 'required');
 		$this->form_validation->set_rules('nama', 'namadosen', 'required');
 		$this->form_validation->set_rules('prodi', 'prodidosen', 'required');
 
-		if ($this->input->post('nip') == NULL) {
-			$username = 'NULL';
-		} else {
-			$username = $this->input->post('nip');
-		}
-
 		if ($this->form_validation->run() == false) {
-			$this->load->view('template/header', $data);
-			$this->load->view('template/sidebar', $data);
-			$this->load->view('template/topbar', $data);
-			$this->load->view('administrator/daftarDosen', $data);
-			$this->load->view('template/footer');
+			//kosong?
 		} else {
 			if ($this->db->get_where('user', ['username' => $this->input->post('nip')])->row_array() == null) {
 				$usr = [
@@ -413,10 +392,9 @@ class Administrator extends CI_Controller
 				// gagal karena nip sudah digunakan
 				$this->session->set_flashdata('pesan', 'Menambahkan Dosen gagal');
 			}
-			redirect('administrator/daftarDosen');
 		}
+		redirect('Administrator/daftarDosen');
 	}
-
 	public function updateDosen($id)
 	{
 		$this->form_validation->set_rules('nip', 'nip', 'required');
@@ -443,6 +421,8 @@ class Administrator extends CI_Controller
 			if ($this->input->post('nip') != $id) {
 				$this->db->delete('user', array('username' => $id));
 			}
+		} else{
+			//swall gagal
 		}
 		redirect('administrator/daftarDosen');
 	}
