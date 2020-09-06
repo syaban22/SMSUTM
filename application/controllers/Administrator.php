@@ -12,6 +12,7 @@ class Administrator extends CI_Controller
 		} 
 		$this->load->model('user_model', 'userM');
 		$this->load->model('dosen_model', 'dosenM');
+		$this->load->model('mahasiswa_model', 'mahasiswaM');
 		cek_login();
 	}
 	public function index(){
@@ -24,9 +25,9 @@ class Administrator extends CI_Controller
 
 		$data['users'] = $this->userM->getuserbylv('3','4');
 		$this->load->view('template/header', $data);
-		$this->load->view('template/sidebar', $data);
-		$this->load->view('template/topbar', $data);
-		$this->load->view('administrator/index', $data);
+		$this->load->view('template/sidebar');
+		$this->load->view('template/topbar');
+		$this->load->view('administrator/index');
 		$this->load->view('template/footer');
 	}
 	public function tambahU(){
@@ -443,52 +444,23 @@ function daftarDosen()
 		$data['profil']['nama'] = 'administrator';
 		$data['profil']['gambar'] = 'default.jpg';
 
-		$this->load->model('mahasiswa_model', 'mahasiswaM');
 		$data['prodi'] = $this->db->get('prodi')->result_array();
 		$data['username'] = $this->db->get_where('user', ['level_id' => '4'])->result_array();
-		//$data['user'] = $this->db->from('user');
 
-		if ($this->input->post('submit')) {
-			$data['keyword'] = $this->input->post('keyword');
-			$this->session->set_userdata('keyword', $data['keyword']);
-		} else {
-			$data['keyword'] = $this->session->userdata('keyword');
-		}
+		$data['mahasiswa'] = $this->mahasiswaM->getMahasiswa();
 
-		// $this->db->like('nama', $data['keyword']);
-		// $this->db->from('mahasiswa');
-		$config['total_rows'] = $this->mahasiswaM->HitungSearch($data['keyword']);
-		$data['total_rows'] = $config['total_rows'];
-		$config['base_url'] = 'http://localhost/sms-utm/administrator/daftarMahasiswa';
-
-		$config['per_page'] = 5;
-
-		$this->pagination->initialize($config);
-
-		if ($this->uri->segment(3) !== null) {
-			$data['start'] = $this->uri->segment(3);
-		} else {
-			$data['start'] = 0;
-		}
-
-		$data['mahasiswa'] = $this->mahasiswaM->getMahasiswa($config['per_page'], $data['start'], $data['keyword']);
-		// $data['userDosen'] = $this->dosenM->getUserDosen();
-
+		$this->load->view('template/header', $data);
+		$this->load->view('template/sidebar');
+		$this->load->view('template/topbar');
+		$this->load->view('administrator/daftarMahasiswa');
+		$this->load->view('template/footer');
+	
+	}
+	public function tambahMahasiswa(){
 		$this->form_validation->set_rules('nim', 'nimmahasiswa', 'required');
 		$this->form_validation->set_rules('nama', 'namamahasiswa', 'required');
-
-		if ($this->input->post('nim') == NULL) {
-			$username = 'NULL';
-		} else {
-			$username = $this->input->post('nim');
-		}
-
 		if ($this->form_validation->run() == false) {
-			$this->load->view('template/header', $data);
-			$this->load->view('template/sidebar', $data);
-			$this->load->view('template/topbar', $data);
-			$this->load->view('administrator/daftarMahasiswa', $data);
-			$this->load->view('template/footer');
+			//swall
 		} else {
 			if ($this->db->get_where('user', ['username' => $this->input->post('nim')])->row_array() == null) {
 				$data = [
@@ -508,20 +480,24 @@ function daftarDosen()
 					'username' => $this->db->get_where('user', ['username' => $this->input->post('nim')])->row_array()['id'],
 					'tgl_buat' => time()
 				];
-				$this->db->insert('mahasiswa', $data2);
-				$this->session->set_flashdata('pesan', '1 User Mahasiswa berhasil ditambahkan');
+				try {
+					$this->db->insert('mahasiswa', $data2);
+					$this->session->set_flashdata('pesan', '1 User Mahasiswa berhasil ditambahkan');
+				}
+				catch (Exception $e) {
+					$this->session->set_flashdata('pesan', 'Menambahkan Mahasiswa gagal');
+				}
 			} else {
-				// gagal karena nim digunakan
 				$this->session->set_flashdata('pesan', 'Menambahkan Mahasiswa gagal');
 			}
-			redirect('administrator/daftarMahasiswa');
 		}
+		redirect('administrator/daftarMahasiswa');
 	}
-
 	public function updateMahasiswa($id)
 	{
 		$this->form_validation->set_rules('nim', 'nim', 'required');
 		$this->form_validation->set_rules('nama', 'nama', 'required');
+		//untuk cek username yang sama dengan nim inputan
 		if ($this->db->get_where('user', ['username' => $this->input->post('nim')])->row_array() == null) {
 			$data = array(
 				'username' => $this->input->post('nim'),
@@ -530,6 +506,7 @@ function daftarDosen()
 			);
 			$this->db->insert('user', $data);
 		}
+		//
 		if ($this->db->get_where('mahasiswa', ['nim' => $this->input->post('nim')])->row_array() == null || $this->input->post('nim') == $id) {
 			$data = array(
 				'nim' => $this->input->post('nim'),
@@ -556,7 +533,7 @@ function daftarDosen()
 		$this->session->set_flashdata('pesan', '1 user Mahasiswa berhasil dihapus');
 		redirect('administrator/daftarMahasiswa');
 	}
-
+/*
 	// di bawah ini belum terpakai
 	function get_file() //nanti di tambah untuk setiap user punya folder masing-masing untuk file
 	{
@@ -731,4 +708,5 @@ function daftarDosen()
 		redirect('administrator/getStatus');
 	}
 	// sampai sini belum terpakai
+	*/
 }

@@ -57,6 +57,8 @@
 <!-- Custom scripts for all pages-->
 <script src="<?= base_url('assets/'); ?>js/sb-admin-2.min.js"></script>
 <script src="<?= base_url('assets/'); ?>js/admin.js"></script>
+<!-- untuk memilih file agar langsung berubah textnya -->
+<script src="<?= base_url('assets/'); ?>js/global.js"></script>
 
 <!-- Page level plugins -->
 <script src="<?= base_url('assets/'); ?>vendor/datatables/jquery.dataTables.min.js"></script>
