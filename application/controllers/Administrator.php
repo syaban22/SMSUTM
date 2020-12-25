@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Administrator extends CI_Controller
 {
-
+	//test
 	public function __construct()
 	{
 		parent::__construct();
