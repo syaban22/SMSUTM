@@ -3,7 +3,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Administrator extends CI_Controller
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -84,92 +83,7 @@ class Administrator extends CI_Controller
 		}
 		redirect('administrator/index');
 	}
-/* //tidak diperlukan
-	public function Fakultas()
-	{
-		$this->session->unset_userdata('keyword');
 
-		$data['judul'] = 'Daftar Fakultas';
-		$data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-		$data['profil'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-		$data['profil'] = $data['user'];
-		$data['profil']['nama'] = 'administrator';
-		$data['profil']['gambar'] = 'default.jpg';
-
-		$this->load->model('fakultas_model', 'fakultasM');
-
-		if ($this->input->post('submit')) {
-			$data['keyword'] = $this->input->post('keyword');
-			$this->session->set_userdata('keyword', $data['keyword']);
-		} else {
-			$data['keyword'] = $this->session->userdata('keyword');
-		}
-
-		$this->db->like('fakultas', $data['keyword']);
-		$this->db->from('fakultas');
-		$config['total_rows'] = $this->db->count_all_results();
-		$data['total_rows'] = $config['total_rows'];
-		$config['base_url'] = 'http://localhost/sms-utm/administrator/fakultas';
-
-		$config['per_page'] = 5;
-
-		$this->pagination->initialize($config);
-
-		if ($this->uri->segment(3) !== null) {
-			$data['start'] = $this->uri->segment(3);
-		} else {
-			$data['start'] = 0;
-		}
-
-		$data['fakultas'] = $this->fakultasM->getFakultas($config['per_page'], $data['start'], $data['keyword']);
-
-
-		$this->form_validation->set_rules('fakultas', 'Fakultas', 'required');
-
-		if ($this->form_validation->run() == false) {
-			$this->load->view('template/header', $data);
-			$this->load->view('template/sidebar', $data);
-			$this->load->view('template/topbar', $data);
-			$this->load->view('administrator/fakultas', $data);
-			$this->load->view('template/footer');
-		} else {
-			if ($this->db->get_where('fakultas', ['kode_fak' => $this->input->post('kodefak')])->row_array() == null) {
-				$data = [
-					'kode_fak' => $this->input->post('kodefak'),
-					'fakultas' => $this->input->post('fakultas'),
-				];
-
-				$this->db->insert('fakultas', $data);
-				$this->session->set_flashdata('pesan', '1 Fakultas baru berhasil ditambahkan');
-			} else {
-				// gagal
-				$this->session->set_flashdata('pesan', 'Menambahkan Fakultas tidak berhasil');
-			}
-			redirect('administrator/fakultas');
-		}
-	}
-
-	public function updateFakultas($id)
-	{
-		$data = array(
-			'fakultas' => $this->input->post('fakultasU'),
-		);
-
-		$this->db->where('kode_fak', $id);
-		$this->db->update('fakultas', $data);
-		$this->session->set_flashdata('pesan', 'Edit Data Fakultas berhasil');
-		redirect('administrator/fakultas');
-	}
-
-	public function deleteFakultas($id)
-	{
-		$this->db->delete('fakultas', array('kode_fak' => $id));
-		$this->session->set_flashdata('pesan', '1 Fakultas berhasil dihapus');
-		redirect('administrator/fakultas');
-		//sintak : bgst
-		//$this->session->set_flashdata('pesan', 'Gagal menghapus Fakultas');
-	}
-*/
 	public function ProgramStudi()
 	{
 		$this->session->unset_userdata('keyword');
@@ -255,93 +169,8 @@ class Administrator extends CI_Controller
 		$this->session->set_flashdata('pesan', '1 Program Studi berhasil dihapus');
 		redirect('administrator/ProgramStudi');
 	}
-/*
-	public function level()
-	{
-		$data['judul'] = 'Level Akses';
-		$data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-		$data['profil'] = $data['user'];
-		$data['profil']['nama'] = 'administrator';
-		$data['profil']['gambar'] = 'default.jpg';
 
-		$data['level'] = $this->db->get('user_level')->result_array();
-
-		$this->form_validation->set_rules('level', 'Level', 'required');
-
-		if ($this->form_validation->run() == false) {
-			$this->load->view('template/header', $data);
-			$this->load->view('template/sidebar', $data);
-			$this->load->view('template/topbar', $data);
-			$this->load->view('administrator/level', $data);
-			$this->load->view('template/footer');
-		} else {
-			$this->db->insert('user_level', ['level' => $this->input->post('level')]);
-			$this->session->set_flashdata('pesan', 'Level baru berhasil ditambahkan');
-			redirect('administrator/level');
-		}
-	}
-
-	public function update($id)
-	{
-		$data = array(
-			'level' => $this->input->post('levelU')
-		);
-
-		$this->db->where('id', $id);
-		$this->db->update('user_level', $data);
-		$this->session->set_flashdata('pesan', 'Edit data Level');
-		redirect('administrator/level');
-	}
-
-	public function delete($id)
-	{
-		$this->db->delete('user_level', array('id' => $id));
-		$this->session->set_flashdata('pesan', 'Level berhasil dihapus');
-		redirect('administrator/level');
-	}
-
-	public function levelakses($id)
-	{
-		$data['judul'] = 'Level Akses';
-		$data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-		$data['profil'] = $data['user'];
-		$data['profil']['nama'] = 'administrator';
-		$data['profil']['gambar'] = 'default.jpg';
-
-		$data['level'] = $this->db->get_where('user_level', ['id' => $id])->row_array();
-
-		$this->db->where('id !=', 1);
-		$data['menu'] = $this->db->get('user_menu')->result_array();
-
-		$this->load->view('template/header', $data);
-		$this->load->view('template/sidebar', $data);
-		$this->load->view('template/topbar', $data);
-		$this->load->view('administrator/level-akses', $data);
-		$this->load->view('template/footer');
-	}
-
-	public function rubahakses()
-	{
-		$menu_id = $this->input->post('menuId');
-		$level_id = $this->input->post('levelId');
-
-		$data = [
-			'role_id' => $level_id,
-			'menu_id' => $menu_id
-		];
-
-		$hasil = $this->db->get_where('user_access_menu', $data);
-
-		if ($hasil->num_rows() < 1) {
-			$this->db->insert('user_access_menu', $data);
-		} else {
-			$this->db->delete('user_access_menu', $data);
-		}
-
-		$this->session->set_flashdata('pesan', 'Akses telah diganti');
-	}
-*/
-function daftarDosen()
+	public function daftarDosen()
 	{
 		$this->session->unset_userdata('keyword');
 
@@ -592,62 +421,6 @@ function daftarDosen()
 		$this->load->view('template/topbar', $data);
 		$this->load->view('administrator/index', $data);
 		$this->load->view('template/footer');
-	}
-
-	function getJenKel()
-	{
-		$data['judul'] = 'Daftar Jenis Kelamin';
-		$data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-		$data['profil'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-		$data['profil'] = $data['user'];
-		$data['profil']['nama'] = 'administrator';
-		$data['profil']['gambar'] = 'default.jpg';
-
-		$this->load->model('jenkel_model', 'JenKelM');
-		$data['jenkel'] = $this->JenKelM->getJenKel();
-		$data['start'] = 0;
-
-		$this->form_validation->set_rules('Jenkel', 'Jenkel', 'required');
-
-		if ($this->form_validation->run() == false) {
-			$this->load->view('template/header', $data);
-			$this->load->view('template/sidebar', $data);
-			$this->load->view('template/topbar', $data);
-			$this->load->view('administrator/jenkel', $data);
-			$this->load->view('template/footer');
-		} else {
-			if ($this->db->get_where('jenkel', ['jenis' => $this->input->post('Jenkel')])->row_array() == null) {
-				$data = [
-					'jenis' => $this->input->post('Jenkel')
-				];
-				$this->db->insert('jenkel', $data);
-				$this->session->set_flashdata('pesan', '1 Jenis Kelamin baru berhasil ditambahkan');
-			} else {
-				// gagal
-				$this->session->set_flashdata('pesan', 'Gagal menambahkah Jenis Kelamin');
-			}
-			redirect('administrator/getJenkel');
-		}
-	}
-
-	public function updateJenkel($id)
-	{
-		$this->form_validation->set_rules('jenkel', 'jenkel', 'required');
-		$data = array(
-			'jenis' => $this->input->post('JenkelU'),
-		);
-
-		$this->db->where('id', $id);
-		$this->db->update('jenkel', $data);
-		$this->session->set_flashdata('pesan', 'Edit data Jenis Kelamin berhasil');
-		redirect('administrator/getJenkel');
-	}
-
-	public function deleteJenkel($id)
-	{
-		$this->db->delete('jenkel', array('id' => $id));
-		$this->session->set_flashdata('pesan', '1 Jenis Kelamin berhasil dihapus');
-		redirect('administrator/getJenkel');
 	}
 
 	function getStatus()
