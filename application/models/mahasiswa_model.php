@@ -8,4 +8,8 @@ class mahasiswa_model extends CI_Model
         $query ="SELECT m.nim, m.nama, u.username, p.prodi FROM mahasiswa m, prodi p, user u WHERE m.prodi = p.kode_prodi and m.username = u.id";
         return $this->db->query($query)->result_array();
     }
+    public function MahasiswaProdi($id){
+        $query ="SELECT m.nim, m.nama, u.username, p.prodi FROM mahasiswa m, prodi p, user u WHERE m.prodi = p.kode_prodi and m.username = u.id and m.prodi = $id";
+        return $this->db->query($query)->result_array();
+    }
 }

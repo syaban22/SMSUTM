@@ -168,7 +168,7 @@
 			<form action="<?= base_url('administrator/tambahU'); ?>" method="POST" class="needs-validation" novalidate>
 				<div class="modal-body">
 					<div class="form-group">
-						<div class="name">Upload Berkas Persyaratan Skripsi</div>
+						<div class="name">Upload File Data User Baru</div>
 							<div class="value">
 								<div class="input-group js-input-file">
 									<input class="input-file" type="file" name="file" id="file">

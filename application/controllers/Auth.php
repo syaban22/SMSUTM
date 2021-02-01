@@ -82,6 +82,7 @@ class Auth extends CI_Controller
         );
 
         $cap = create_captcha($options);
+        var_dump($cap);
         $image = $cap['image'];
         // var_dump($cap['word']);
 

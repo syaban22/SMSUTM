@@ -23,7 +23,7 @@ class Administrator extends CI_Controller
 		$data['level'] = $this->db->get('user_level')->result_array();
 		$data['judul'] = 'Dashboard';
 
-		$data['users'] = $this->userM->getuserbylv('3','4');
+		$data['users'] = $this->userM->getUserByLv('3','4');
 		$this->load->view('template/header', $data);
 		$this->load->view('template/sidebar');
 		$this->load->view('template/topbar');
