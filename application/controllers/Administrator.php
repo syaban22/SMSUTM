@@ -14,6 +14,7 @@ class Administrator extends CI_Controller
 		$this->load->model('mahasiswa_model', 'mahasiswaM');
 		cek_login();
 	}
+
 	public function index(){
 		$data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 		$data['profil'] = $data['user'];
