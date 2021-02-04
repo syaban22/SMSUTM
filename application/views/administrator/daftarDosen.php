@@ -1,7 +1,71 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
           <div class="flash-data" data-flashdata="<?= $this->session->flashdata('pesan'); ?>"></div>
-          <!-- Page Heading -->
+		  <!-- Page Heading -->
+		  <h1 class="h3 mb-2 text-gray-800"><?= $judul; ?></h1>
+          <p class="mb-4">Halaman ini akan membantu anda mengelola data dosen</a>.</p>
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <div class="row">
+                <div class="col-sm-12 col-md-6">
+                  <h6 class="m-0 font-weight-bold text-primary">Tabel Data Dosen</h6>
+                </div>
+
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+				  	<tr>
+					  	<th>No</th>
+						<th>NIP</th>
+						<th>Nama</th>
+						<th>Program Studi</th>
+						<th>Username</th>
+						<th>Action</th>
+					</tr>
+                  </thead>
+
+                  <tbody>
+				  <?php if (empty($dosen)) : ?>
+						<tr>
+							<td colspan="12">
+								<div class="alert alert-danger" role="alert">
+									Data not found!
+								</div>
+							</td>
+						</tr>
+					<?php endif; ?>
+					
+					<?php $number=0;
+					foreach ($dosen as $u) : ?>
+						<tr>
+							<td scope="row"><?= ++$number; ?></td>
+							<td><?= $u['nip']; ?></td>
+							<td><?= $u['nama']; ?></td>
+							<td><?= $u['prodi']; ?></td>
+							<td><?= $u['username']; ?></td>
+							<td>
+								<a href="" data-toggle="modal" data-target="#dosenEdit<?= $u['nip'] ?>" class="btn btn-success btn-sm"><i class="fa fa-fw fa-edit"></i>Edit</a>
+								<a href="<?= base_url() . 'administrator/deleteDosen/' . $u['nip'] ?>" data-nama="<?= $u['nama']; ?>" class="btn btn-danger btn-sm deleteDosen"><i class="fa fa-fw fa-trash"></i>Delete</a>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+        </div>
+		<!-- End of Main Content -->
+
+
           <h1 class="h3 mb-2 text-gray-800"><?= $judul; ?></h1>
           <p class="mb-4">Halaman ini akan membantu anda mengelola data Dosen</a>.</p>
           <!-- DataTales Example -->
@@ -21,12 +85,12 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-						<th scope="col">No</th>
-						<th scope="col">NIP</th>
-						<th scope="col">Nama</th>
-						<th scope="col">Program Studi</th>
-						<th scope="col">Username</th>
-						<th scope="col">Action</th>
+						<th>No</th>
+						<th>NIP</th>
+						<th>Nama</th>
+						<th>Program Studi</th>
+						<th>Username</th>
+						<th>Action</th>
                     </tr>
                   </thead>
 

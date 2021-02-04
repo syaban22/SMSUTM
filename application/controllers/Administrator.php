@@ -362,6 +362,42 @@ class Administrator extends CI_Controller
 		$this->session->set_flashdata('pesan', '1 user Mahasiswa berhasil dihapus');
 		redirect('administrator/daftarMahasiswa');
 	}
+	function getJenKel()
+	{
+		$data['judul'] = 'Daftar Jenis Kelamin';
+		$data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+		$data['profil'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+		$data['profil'] = $data['user'];
+		$data['profil']['nama'] = 'administrator';
+		$data['profil']['gambar'] = 'default.jpg';
+
+		$this->load->model('jenkel_model', 'JenKelM');
+		$data['jenkel'] = $this->JenKelM->getJenKel();
+		$data['start'] = 0;
+
+		$this->form_validation->set_rules('Jenkel', 'Jenkel', 'required');
+
+		if ($this->form_validation->run() == false) {
+			$this->load->view('template/header', $data);
+			$this->load->view('template/sidebar', $data);
+			$this->load->view('template/topbar', $data);
+			$this->load->view('administrator/jenkel', $data);
+			$this->load->view('template/footer');
+		} else {
+			if ($this->db->get_where('jenkel', ['jenis' => $this->input->post('Jenkel')])->row_array() == null) {
+				$data = [
+					'jenis' => $this->input->post('Jenkel')
+				];
+				$this->db->insert('jenkel', $data);
+				$this->session->set_flashdata('pesan', '1 Jenis Kelamin baru berhasil ditambahkan');
+			} else {
+				// gagal
+				$this->session->set_flashdata('pesan', 'Gagal menambahkah Jenis Kelamin');
+			}
+			redirect('administrator/getJenkel');
+		}
+	}
+	
 /*
 	// di bawah ini belum terpakai
 	function get_file() //nanti di tambah untuk setiap user punya folder masing-masing untuk file
